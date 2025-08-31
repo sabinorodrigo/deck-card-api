@@ -1,16 +1,9 @@
-package com.rsg.deck_api.model;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+package com.rsg.deck_api.dto;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "TB_MONSTER")
-public class CardMonster {
+public class CardMonsterDTO {
 
-    @Id
     private String passcode;
 
     private String name;
@@ -29,19 +22,20 @@ public class CardMonster {
 
     private String statuses;
 
-    @Override
-    public String toString() {
-        return "CardMonster{" +
-                "passcode='" + passcode + '\'' +
-                ", name='" + name + '\'' +
-                ", cardType='" + cardType + '\'' +
-                ", attribute='" + attribute + '\'' +
-                ", type='" + type + '\'' +
-                ", level=" + level +
-                ", attack=" + attack +
-                ", defense=" + defense +
-                ", statuses='" + statuses + '\'' +
-                '}';
+    public CardMonsterDTO() {}
+
+    public CardMonsterDTO(String passcode, String name, String cardType, String attribute,
+                          String type, Integer level, BigDecimal attack, BigDecimal defense,
+                          String statuses) {
+        this.passcode = passcode;
+        this.name = name;
+        this.cardType = cardType;
+        this.attribute = attribute;
+        this.type = type;
+        this.level = level;
+        this.attack = attack;
+        this.defense = defense;
+        this.statuses = statuses;
     }
 
     public String getPasscode() {
