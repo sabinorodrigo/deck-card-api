@@ -3,6 +3,8 @@ package com.rsg.deck_api.controller;
 import com.rsg.deck_api.model.CardMonster;
 import com.rsg.deck_api.service.CardMonsterService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +21,11 @@ public class CardMonsterController {
     }
 
     @PostMapping
-    public CardMonster saveCardMonster(@RequestBody CardMonster monster) {
-        return cardMonsterService.saveMonster(monster);
+    public ResponseEntity<CardMonster> saveCardMonster(@RequestBody CardMonster monster) {
+        CardMonster saved = cardMonsterService.saveMonster(monster);
+        return ResponseEntity
+                .status(HttpStatus.CREATED) // 201
+                .body(saved);               // corpo com o novo objeto
     }
 
     @GetMapping
@@ -28,15 +33,21 @@ public class CardMonsterController {
         return cardMonsterService.findAllMonster();
     }
 
-    @GetMapping("./{id}")
-    public Optional<CardMonster> deleteMonsterById(@PathVariable String id) {
-        var idConverted = Integer.parseInt(id);
-        return cardMonsterService.findCardById(String.valueOf(idConverted));
+    @GetMapping("/{id}")
+    public ResponseEntity<CardMonster> getMonsterById(@PathVariable String id) {
+        return cardMonsterService.findCardById(id)
+                .map(ResponseEntity::ok) // retorna 200 OK com o objeto
+                .orElse(ResponseEntity.notFound().build()); // retorna 404
     }
 
     @PutMapping
-    public CardMonster  cardUpdate(CardMonster monster) {
+    public CardMonster  cardUpdate(@RequestBody CardMonster monster) {
         cardMonsterService.updateMonster(monster);
         return monster;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteMonsterCard(@PathVariable String id) {
+        cardMonsterService.deleteCard(id);
     }
 }

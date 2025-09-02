@@ -34,4 +34,8 @@ public class CardMonsterService {
         var idConverted = Integer.parseInt(id);
         return cardMonsterRepository.findById(String.valueOf(idConverted));
     }
+
+    public void deleteCard(String id) {
+        cardMonsterRepository.deleteById(id);
+    }
 }
